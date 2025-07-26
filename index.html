@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>توقع التنسيق </title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                #ff9a9e 0%, 
+                #fad0c4 25%, 
+                #a1c4fd 50%, 
+                #c2e9fb 75%, 
+                #ff9a9e 100%
+            );
+            animation: rotate 8s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            border: 3px solid #ffd166;
+            border-radius: 15px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 700;
+            color: #ff6b6b;
+            background: #fff9e6;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.3);
+            transform: scale(1.02);
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 107, 107, 0.3);
+            border-top: 5px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-title {
+            color: #ff6b6b;
+            font-size: 26px;
+            margin-bottom: 25px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .college-card {
+            background: linear-gradient(45deg, #a1c4fd, #c2e9fb);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 3px solid white;
+            transform: perspective(1000px) rotateY(0deg);
+            transition: all 0.4s ease;
+        }
+
+        .college-card:hover {
+            transform: perspective(1000px) rotateY(5deg) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .college-card:nth-child(2) {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+        }
+
+        .college-card:nth-child(3) {
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+        }
+
+        .rank {
+            background: #ff6b6b;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .college-name {
+            font-weight: 900;
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        .college-details {
+            color: #555;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .magic {
+            animation: magic 2s infinite;
+            display: inline-block;
+        }
+
+        @keyframes magic {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(-5px) rotate(-5deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            input, button {
+                padding: 15px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>🔮 توقع التنسيق</h1>
+            <p class="subtitle">ادخل رقم الجلوس واكتشف مستقبلك الجامعي!</p>
+            
+            <div class="input-group">
+                <label for="seatNumber">رقم الجلوس:</label>
+                <input type="number" id="seatNumber" placeholder="مثال: 123456" min="100000" max="999999">
+            </div>
+            
+            <button id="predictBtn">✨ توقع التنسيق ✨</button>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="color: #ff6b6b; font-weight: 700; font-size: 20px;">جاري التحميل ...</p>
+            </div>
+            
+            <div class="results" id="results">
+                <h2 class="result-title">✨ النتائج السحرية ✨</h2>
+                <div id="collegesList"></div>
+            </div>
+            
+            <div class="footer">
+                <p>توقع التنسيق  <span class="magic">🧙‍♂️</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictBtn').addEventListener('click', function() {
+            const seatNumber = document.getElementById('seatNumber').value;
+            
+            if (!seatNumber || seatNumber.length < 6) {
+                alert('من فضلك أدخل رقم جلوس صحيح (6 أرقام)');
+                return;
+            }
+            
+            // إظهار مؤشر التحميل وإخفاء النتائج
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            // محاكاة عملية التحميل
+            setTimeout(function() {
+                predictColleges(seatNumber);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+                
+                // إضافة تأثير للنتائج
+                const cards = document.querySelectorAll('.college-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(30px)';
+                        card.style.transition = 'all 0.5s ease';
+                        
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 200);
+                });
+            }, 2500);
+        });
+        
+        function predictColleges(seatNumber) {
+            // الكليات المتاحة
+            const colleges = [
+                { 
+                    name: "معهد لحس جوابات البريد", 
+                    details: "للسادة الرائعين الذين يجيدون فن لحس الجوابات من الورق بمهارة عالية" 
+                },
+                { 
+                    name: "معهد تظغيط بط", 
+                    details: "لأصحاب القدرات العالية في تظغيط البط وإصدار الأصوات المميزة" 
+                },
+                { 
+                    name: "معهد فني تظريط", 
+                    details: "للمبدعين في فنون التظريط والتعبير عن الرأي بصوت عالٍ ومميز" 
+                },
+                { 
+                    name: "معهد حش برسيم", 
+                    details: "للمتخصصين في حش البرسيم وجمع الخردة بمهارة عالية ودقة متناهية" 
+                },
+                { 
+                    name: "معهد حلب معيز", 
+                    details: "للمتمكنين من فنون الحلبة والمعانقة بطريقة مميزة ومبتكرة" 
+                }
+            ];
+            
+            // اختيار 3 كليات عشوائية بناءً على رقم الجلوس
+            const seed = parseInt(seatNumber.slice(-3));
+            const shuffled = [...colleges].sort(() => 0.5 - Math.sin(seed));
+            const selectedColleges = shuffled.slice(0, 3);
+            
+            // عرض النتائج
+            const collegesList = document.getElementById('collegesList');
+            collegesList.innerHTML = '';
+            
+            selectedColleges.forEach((college, index) => {
+                const collegeCard = document.createElement('div');
+                collegeCard.className = 'college-card';
+                collegeCard.innerHTML = `
+                    <div class="rank">${index + 1}</div>
+                    <div class="college-name">${college.name}</div>
+                    <div class="college-details">${college.details}</div>
+                `;
+                collegesList.appendChild(collegeCard);
+            });
+        }
+        
+        // إضافة تأثير عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(30px)';
+            container.style.transition = 'all 0.8s ease';
+            
+            setTimeout(() => {
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
